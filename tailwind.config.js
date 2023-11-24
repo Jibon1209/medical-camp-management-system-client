@@ -8,14 +8,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        Blue: "#3498db",
-        LightBlue: "#87CEEB",
+        Primary: "#6C5CE7",
+        Background: "#E7F2FF",
         Green: "#2ecc71",
         LightGreen: "#98FB98",
         Red: " #e74c3c",
         LightRed: "#FFA07A",
-        LightGray: "#f8f9fa",
-        DarkGray: "#343a40",
+        TextColor: "#2D2D2D",
+        secondary: "#D4D4D4",
       },
     },
   },
