@@ -6,6 +6,7 @@ import SignUp from "../Pages/SignUp/SignUp";
 import AvailableCamps from "../Pages/AvailableCamps/AvailableCamps";
 import ContactUs from "../Pages/ContactUs/ContactUs";
 import PrivateRoute from "./PrivateRoute";
+import Dashboard from "../Layout/Dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AvailableCamps />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <Dashboard />
           </PrivateRoute>
         ),
       },

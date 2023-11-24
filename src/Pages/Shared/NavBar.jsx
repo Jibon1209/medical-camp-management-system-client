@@ -34,7 +34,7 @@ const NavBar = () => {
   const filteredNavItems = navItems.filter((item) => item.path !== "");
 
   return (
-    <header className="fixed z-10 w-full xl:px-24 px-4 bg-purple-500 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+    <header className="fixed z-10 w-full xl:px-24 px-4 bg-Primary md:shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
       <nav className="flex justify-between items-center py-4">
         <a href="/" className="flex items-center gap-2 text-xl">
           <span className="font-medium text-white">CampHealth Portal</span>
