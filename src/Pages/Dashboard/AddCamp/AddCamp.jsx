@@ -6,33 +6,51 @@ import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import { useState } from "react";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { toast } from "react-toastify";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import UseAuth from "../../../Hooks/UseAuth";
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddCamp = () => {
+  const { user, loading } = UseAuth();
   const { register, handleSubmit, reset } = useForm();
   const [value, setValue] = useState(new Date());
+  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
+
   const onSubmit = async (data) => {
     const imageFile = { image: data.image[0] };
-
-    //res.data.data.display_url,
-    const campInfos = {
-      campName: data.campName,
-      location: data.location,
-      professional: data.professional,
-      fees: data.price,
-      dateTime: value,
-      image: data.image[0],
-      services: data.services,
-      audience: data.audience,
-      description: data.description,
-    };
-    console.log(campInfos);
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    if (res.data.success) {
+      const campInfo = {
+        campName: data.campName,
+        location: data.location,
+        professional: data.professional,
+        fees: data.price,
+        dateTime: value,
+        image: res.data.data.display_url,
+        services: data.services,
+        audience: data.audience,
+        description: data.description,
+        organizerEmail: user?.email,
+      };
+      const camps = await axiosSecure.post("/camps", campInfo);
+      if (camps.data.success) {
+        reset();
+        toast.success("Camp Added successfully");
+      }
+    }
   };
   return (
     <div>
-      <SectionTitle
-        heading="Add A Camp"
-        subHeading="What's new?"
-      ></SectionTitle>
+      <SectionTitle heading="Add A Camp"></SectionTitle>
       <div className="w-full flex flex-col justify-center items-center text-gray-800 rounded-xl">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -148,11 +166,11 @@ const AddCamp = () => {
             type="submit"
             className="border-white mt-10 bg-Primary text-white hover:scale-110 transition-all w-full rounded-md py-3 "
           >
-            {/* {loading ? (
+            {loading ? (
               <TbFidgetSpinner className="m-auto animate-spin" size={24} />
             ) : (
-              "Save & Continue"
-            )} */}
+              "Add & Continue"
+            )}
           </button>
         </form>
       </div>

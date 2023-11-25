@@ -11,6 +11,7 @@ import AddCamp from "../Pages/Dashboard/AddCamp/AddCamp";
 import ParticipantProfile from "../Pages/Dashboard/Participant/ParticipantProfile";
 import ProfessionalProfile from "../Pages/Dashboard/Professional/ProfessionalProfile";
 import OrganizerProfile from "../Pages/Dashboard/Organizer/OrganizerProfile";
+import ManageCamps from "../Pages/Dashboard/AddCamp/manageCamps";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: "add-a-camp",
         element: <AddCamp />,
+      },
+      {
+        path: "manage-camps",
+        element: <ManageCamps />,
       },
       //professional
       {

@@ -1,7 +1,8 @@
-import useAxiosPublic from "./useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 
-const useMenu = () => {
+import useAxiosPublic from "./useAxiosPublic";
+
+const useCamps = () => {
   const axiosPublic = useAxiosPublic();
   const {
     data: menu = [],
@@ -10,11 +11,11 @@ const useMenu = () => {
   } = useQuery({
     queryKey: ["menu"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/menu");
+      const res = await axiosPublic.get("/camps");
       return res.data;
     },
   });
   return [menu, loading, refetch];
 };
 
-export default useMenu;
+export default useCamps;
