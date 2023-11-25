@@ -6,6 +6,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Routers/Routes.jsx";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <div className="min-h-screen bg-Background">
             <RouterProvider router={router} />
           </div>
+          <ToastContainer position="bottom-right" />
         </HelmetProvider>
       </QueryClientProvider>
     </AuthProvider>
