@@ -18,11 +18,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const axiosPublic = useAxiosPublic();
-  const [isToggleOpen, setIsToggleOpen] = useState(false);
 
-  const handleToggler = () => {
-    return setIsToggleOpen(!isToggleOpen);
-  };
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -72,8 +68,6 @@ const AuthProvider = ({ children }) => {
     signIn,
     logOut,
     googleSignIn,
-    handleToggler,
-    isToggleOpen,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

@@ -12,94 +12,93 @@ import UseAuth from "../Hooks/UseAuth";
 
 const Dashboard = () => {
   const role = useRole();
-  const { isToggleOpen, handleToggler } = UseAuth();
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // const handleMenuToggler = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
+  const handleMenuToggler = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   const dashboardLinks = {
     admin: [
       {
         path: "/dashboard/adminHome",
         icon: <FaHome size={20} />,
-        title: isToggleOpen ? "Organizer Home" : "",
+        title: isMenuOpen ? "Organizer Home" : "",
       },
       {
         path: "/dashboard/organizer-profile",
         icon: <CgProfile size={20} />,
-        title: isToggleOpen ? "Profile Management" : "",
+        title: isMenuOpen ? "Profile Management" : "",
       },
       {
         path: "/dashboard/add-a-camp",
         icon: <IoIosAddCircleOutline size={20} />,
-        title: isToggleOpen ? "Add Camp" : "",
+        title: isMenuOpen ? "Add Camp" : "",
       },
       {
         path: "/dashboard/manage-camps",
         icon: <MdManageAccounts size={20} />,
-        title: isToggleOpen ? "Manage Camps" : "",
+        title: isMenuOpen ? "Manage Camps" : "",
       },
       {
         path: "/dashboard/manage-registered-camps",
         icon: <FaRegRegistered size={20} />,
-        title: isToggleOpen ? " Registered Camps" : "",
+        title: isMenuOpen ? " Registered Camps" : "",
       },
       {
         path: "/dashboard/add-upcoming-camp",
         icon: <IoIosAddCircleOutline size={20} />,
-        title: isToggleOpen ? " Add Upcoming Camps" : "",
+        title: isMenuOpen ? " Add Upcoming Camps" : "",
       },
       {
         path: "/dashboard/manage-upcoming-camps",
         icon: <MdManageAccounts size={20} />,
-        title: isToggleOpen ? " Manage Upcoming Camps" : "",
+        title: isMenuOpen ? " Manage Upcoming Camps" : "",
       },
     ],
     organizer: [
       {
         path: "/dashboard/organizer-profile",
         icon: <CgProfile size={20} />,
-        title: isToggleOpen ? "Profile Management" : "",
+        title: isMenuOpen ? "Profile Management" : "",
       },
       {
         path: "/dashboard/add-a-camp",
         icon: <IoIosAddCircleOutline size={20} />,
-        title: isToggleOpen ? "Add Camp" : "",
+        title: isMenuOpen ? "Add Camp" : "",
       },
       {
         path: "/dashboard/manage-camps",
         icon: <MdManageAccounts size={20} />,
-        title: isToggleOpen ? "Manage Camps" : "",
+        title: isMenuOpen ? "Manage Camps" : "",
       },
       {
         path: "/dashboard/manage-registered-camps",
         icon: <FaRegRegistered size={20} />,
-        title: isToggleOpen ? " Registered Camps" : "",
+        title: isMenuOpen ? " Registered Camps" : "",
       },
       {
         path: "/dashboard/add-upcoming-camp",
         icon: <IoIosAddCircleOutline size={20} />,
-        title: isToggleOpen ? " Add Upcoming Camps" : "",
+        title: isMenuOpen ? " Add Upcoming Camps" : "",
       },
       {
         path: "/dashboard/manage-upcoming-camps",
         icon: <MdManageAccounts size={20} />,
-        title: isToggleOpen ? " Manage Upcoming Camps" : "",
+        title: isMenuOpen ? " Manage Upcoming Camps" : "",
       },
     ],
     professional: [
       {
         path: "/dashboard/professional-profile",
         icon: <FaHome size={20} />,
-        title: isToggleOpen ? "Profile" : "",
+        title: isMenuOpen ? "Profile" : "",
       },
     ],
     participant: [
       {
         path: "/dashboard/participant-profile",
         icon: <FaHome size={20} />,
-        title: isToggleOpen ? "Profile" : "",
+        title: isMenuOpen ? "Profile" : "",
       },
     ],
   };
@@ -127,49 +126,19 @@ const Dashboard = () => {
     ));
   };
   return (
-    // <div>
-    //   <NavBar />
-    //   <div className="flex flex-col md:flex-row">
-    //     <div
-    //       className={`md:min-h-screen bg-Primary w-full md:w-[290px] ${
-    //         isMenuOpen ? "block" : "hidden"
-    //       }`}
-    //     >
-    //       <ul className="flex flex-col space-y-2 p-4">
-    //         <div className="">
-    //           <button onClick={handleMenuToggler}>
-    //             {isMenuOpen ? (
-    //               <>
-    //                 <FaXmark className="w-5 h-5 text-white" />
-    //               </>
-    //             ) : (
-    //               <>
-    //                 <FaBarsStaggered className="w-5 h-5 text-white" />
-    //               </>
-    //             )}
-    //           </button>
-    //         </div>
-    //         {renderLinks()}
-    //       </ul>
-    //     </div>
-    //     <div className="flex-1 px-4 mt-4 md:mt-20">
-    //       <Outlet />
-    //     </div>
-    //   </div>
-    // </div>
     <div>
       <NavBar />
       <div className="flex">
-        <div className="md:flex hidden md:fixed md:z-10 mt-[60.4px] md:mt-[70px]">
+        <div className="md:flex  mt-[60.4px] md:mt-[70px]">
           <div
             className={`${
-              isToggleOpen ? "w-[290px]" : ""
+              isMenuOpen ? "w-[290px]" : ""
             }  min-h-screen bg-Primary`}
           >
             <ul className="flex  flex-col space-y-2 p-4">
               <div>
-                <button onClick={handleToggler}>
-                  {isToggleOpen ? (
+                <button onClick={handleMenuToggler}>
+                  {isMenuOpen ? (
                     <>
                       <FaXmark className="w-5 h-5 text-white" />
                     </>
@@ -184,20 +153,7 @@ const Dashboard = () => {
             </ul>
           </div>
         </div>
-        <div>
-          <ul
-            className={` duration-1000 absolute
-            ${isToggleOpen ? "top-16" : "-top-60"}
-            bg-Primary px-4`}
-          >
-            {renderLinks()}
-          </ul>
-        </div>
-        <div
-          className={`${
-            isToggleOpen ? "md:ml-[290px]" : "md:ml-14"
-          } flex-1 mt-20 px-4`}
-        >
+        <div className={` w-full mt-20`}>
           <Outlet />
         </div>
       </div>

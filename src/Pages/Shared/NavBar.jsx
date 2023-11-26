@@ -7,8 +7,7 @@ import { Avatar, Dropdown } from "flowbite-react";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, logOut, handleToggler, isToggleOpen } = UseAuth();
-  console.log(isToggleOpen);
+  const { user, logOut } = UseAuth();
   const handleLogout = () => {
     logOut()
       .then(() => {
@@ -37,19 +36,7 @@ const NavBar = () => {
     <header className="fixed z-10 w-full xl:px-24 px-4 bg-Primary md:shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
       <nav className="flex justify-between items-center py-4">
         <div className="flex justify-center items-center gap-1">
-          <div className="md:hidden block">
-            <button onClick={handleToggler}>
-              {isToggleOpen ? (
-                <>
-                  <FaXmark className="w-5 h-5 text-white" />
-                </>
-              ) : (
-                <>
-                  <FaBarsStaggered className="w-5 h-5 text-white" />
-                </>
-              )}
-            </button>
-          </div>
+          <div className="md:hidden block"></div>
           <a href="/" className="flex items-center gap-2 text-xl">
             <span className="font-medium text-white">CampHealth Portal</span>
           </a>

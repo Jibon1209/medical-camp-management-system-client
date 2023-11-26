@@ -1,26 +1,38 @@
-import SectionTitle from "../../../Components/SectionTitle";
-import { useForm } from "react-hook-form";
-import { TbFidgetSpinner } from "react-icons/tb";
-import DateTimePicker from "react-datetime-picker";
-import "react-datetime-picker/dist/DateTimePicker.css";
-import "react-calendar/dist/Calendar.css";
-import "react-clock/dist/Clock.css";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { toast } from "react-toastify";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { toast } from "react-toastify";
 import UseAuth from "../../../Hooks/UseAuth";
+import SectionTitle from "../../../Components/SectionTitle";
+import DateTimePicker from "react-datetime-picker";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const AddCamp = () => {
+const UpdateCamps = () => {
+  const {
+    _id,
+    campName,
+    location,
+    professional,
+    fees,
+    dateTime,
+    image,
+    services,
+    audience,
+    description,
+  } = useLoaderData();
+
   const { user, loading } = UseAuth();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const [value, setValue] = useState();
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
-
+  const navigate = useNavigate();
+  const location2 = useLocation();
   const onSubmit = async (data) => {
     const imageFile = { image: data.image[0] };
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -41,16 +53,18 @@ const AddCamp = () => {
         description: data.description,
         organizerEmail: user?.email,
       };
-      const camps = await axiosSecure.post("/camps", campInfo);
+      const camps = await axiosSecure.patch(`/camps/${_id}`, campInfo);
       if (camps.data.success) {
-        reset();
-        toast.success("Camp Added successfully");
+        navigate("/dashboard/manage-camps", {
+          state: { from: location2 },
+        });
+        toast.success("Camp Updated successfully");
       }
     }
   };
   return (
     <div>
-      <SectionTitle heading="Add A Camp"></SectionTitle>
+      <SectionTitle heading="Update Camp"></SectionTitle>
       <div className="w-full flex flex-col justify-center items-center text-gray-800 rounded-xl">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -61,6 +75,7 @@ const AddCamp = () => {
                   className="w-full px-3 py-2 border rounded-md border-Primary  text-gray-900"
                   {...register("campName", { required: true })}
                   type="text"
+                  defaultValue={campName}
                   placeholder="Camp Name"
                   required
                 />
@@ -73,6 +88,7 @@ const AddCamp = () => {
                   {...register("location", { required: true })}
                   type="text"
                   placeholder="Location"
+                  defaultValue={location}
                   required
                 />
               </div>
@@ -85,6 +101,7 @@ const AddCamp = () => {
                   className="w-full px-3 py-2 border rounded-md border-Primary  text-gray-900"
                   {...register("professional", { required: true })}
                   type="text"
+                  defaultValue={professional}
                   placeholder="Healthcare Professional"
                   required
                 />
@@ -96,6 +113,7 @@ const AddCamp = () => {
                   name="price"
                   {...register("price", { required: true })}
                   type="number"
+                  defaultValue={fees}
                   placeholder="Camp Fees"
                   required
                 />
@@ -103,7 +121,11 @@ const AddCamp = () => {
               <div className="space-y-1">
                 <label className="block text-gray-600">Date and Time</label>
                 <div>
-                  <DateTimePicker onChange={setValue} value={value} />
+                  <DateTimePicker
+                    defaultValue={dateTime}
+                    onChange={setValue}
+                    value={value}
+                  />
                 </div>
               </div>
             </div>
@@ -126,6 +148,7 @@ const AddCamp = () => {
                   className="w-full px-3 py-2 border rounded-md border-Primary  text-gray-900"
                   {...register("services", { required: true })}
                   type="text"
+                  defaultValue={services}
                   placeholder="Services"
                   required
                 />
@@ -137,6 +160,7 @@ const AddCamp = () => {
                   {...register("audience", { required: true })}
                   type="text"
                   placeholder="Audience"
+                  defaultValue={audience}
                   required
                 />
               </div>
@@ -150,7 +174,7 @@ const AddCamp = () => {
                   {...register("description", { required: true })}
                   type="text"
                   className="block rounded-md focus:rose-300 w-full h-32 px-4 py-3 text-gray-800  border border-Primary "
-                  name="description"
+                  defaultValue={description}
                 ></textarea>
               </div>
             </div>
@@ -172,4 +196,4 @@ const AddCamp = () => {
   );
 };
 
-export default AddCamp;
+export default UpdateCamps;
