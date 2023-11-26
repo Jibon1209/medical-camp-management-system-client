@@ -14,7 +14,7 @@ const CampCards = ({ popularCard }) => {
     image,
     services,
     audience,
-    description,
+    participantCount,
   } = popularCard;
   return (
     <Card
@@ -25,8 +25,11 @@ const CampCards = ({ popularCard }) => {
       <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
         {campName}
       </h5>
-      <div className="font-normal text-gray-700 dark:text-gray-400">
-        <p>Fees: {fees}</p>
+      <div className="font-normal text-gray-700 dark:text-gray-400 space-y-2">
+        <div className="flex justify-between items-center">
+          <p>Fees: {fees}</p>
+          <p> Participant Count: {participantCount}</p>
+        </div>
         <p>
           Date and Time: {moment(`${dateTime}`).format("YYYY-MM-DD HH:mm:ss")}
         </p>

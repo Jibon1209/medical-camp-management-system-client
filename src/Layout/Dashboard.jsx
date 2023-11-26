@@ -9,11 +9,15 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdManageAccounts } from "react-icons/md";
 import NavBar from "../Pages/Shared/NavBar";
 import UseAuth from "../Hooks/UseAuth";
+import { Progress } from "flowbite-react";
 
 const Dashboard = () => {
-  const role = useRole();
+  const [userRole, roleLoading] = useRole();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  if (roleLoading) {
+    return <Progress className="progress w-56" />;
+  }
   const handleMenuToggler = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -103,9 +107,7 @@ const Dashboard = () => {
     ],
   };
   const renderLinks = () => {
-    console.log("Rendering Links for Role:", role);
-    const links = dashboardLinks[role[0]] || [];
-    console.log("Links:", links);
+    const links = dashboardLinks[userRole] || [];
     return links.map(({ path, icon, title }) => (
       <li key={path} className="text-lg text-white font-medium">
         <NavLink

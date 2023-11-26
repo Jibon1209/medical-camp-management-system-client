@@ -28,7 +28,6 @@ const SignIn = () => {
     signIn(data.email, data.password)
       .then(() => {
         axiosPublic.put(`/users/${data.email}`).then((res) => {
-          console.log(res.data.role);
           switch (res.data.role) {
             case "organizer":
               toast.success("Sign In successfully");
