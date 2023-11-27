@@ -118,7 +118,11 @@ const AvailableCamps = () => {
       <div>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {cards.map((card) => (
-            <AvailableCard key={card._id} card={card}></AvailableCard>
+            <AvailableCard
+              key={card._id}
+              card={card}
+              refetch={refetch}
+            ></AvailableCard>
           ))}
         </div>
       </div>

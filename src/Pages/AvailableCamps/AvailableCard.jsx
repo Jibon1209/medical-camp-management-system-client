@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import useRole from "../../Hooks/useRole";
 import UseAuth from "../../Hooks/UseAuth";
 
-const AvailableCard = ({ card }) => {
+const AvailableCard = ({ card, refetch }) => {
   const {
     _id,
     campName,
@@ -47,7 +47,9 @@ const AvailableCard = ({ card }) => {
     const camps = await axiosPublic.post("/register", participantInfo);
     if (camps.data.success) {
       reset();
+      refetch();
       toast.success("Camp Registered successfully");
+      setOpenModal(false);
     }
   };
 
@@ -238,5 +240,6 @@ const AvailableCard = ({ card }) => {
 };
 AvailableCard.propTypes = {
   card: PropTypes.object,
+  refetch: PropTypes.func,
 };
 export default AvailableCard;
