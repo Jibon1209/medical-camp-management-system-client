@@ -88,13 +88,13 @@ const ManageCamps = () => {
       cell: (row) => (
         <div className="flex flex-col lg:flex-row gap-1">
           <button
-            className="py-2 px-2 bg-Red hover:scale-110 text-white rounded-md mr-2"
+            className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
             onClick={() => handleDelete(row._id.toString())}
           >
             Delete
           </button>
           <Link to={`/dashboard/update-camp/${row._id.toString()} `}>
-            <button className="py-2 px-2 bg-Primary hover:scale-110 text-white rounded-md mr-2 mb-1">
+            <button className="py-2 px-2 bg-Primary hover:scale-110 text-white rounded-md mb-1">
               Update
             </button>
           </Link>
@@ -104,6 +104,7 @@ const ManageCamps = () => {
   ];
   return (
     <div className="px-4">
+      <SectionTitle heading="Manage Camps"></SectionTitle>
       <SectionTitle heading="Manage Camps" />
 
       <div className="rounded-md">

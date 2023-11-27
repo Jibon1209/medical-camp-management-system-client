@@ -83,7 +83,6 @@ const NavBar = () => {
                             {user?.displayName}
                           </span>
                         </Dropdown.Header>
-                        <Dropdown.Item>Dashboard</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item>
                           <button onClick={handleLogout}>Sign out</button>

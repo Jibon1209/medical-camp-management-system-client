@@ -64,6 +64,7 @@ const UpdateCamps = () => {
   };
   return (
     <div>
+      <SectionTitle heading="Update Camps"></SectionTitle>
       <SectionTitle heading="Update Camp"></SectionTitle>
       <div className="w-full flex flex-col justify-center items-center text-gray-800 rounded-xl">
         <form onSubmit={handleSubmit(onSubmit)}>

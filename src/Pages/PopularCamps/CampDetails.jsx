@@ -49,6 +49,7 @@ const CampDetails = () => {
     if (camps.data.success) {
       reset();
       toast.success("Camp Registered successfully");
+      setOpenModal(false);
     }
   };
 

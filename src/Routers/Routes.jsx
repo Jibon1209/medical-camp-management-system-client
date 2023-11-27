@@ -14,6 +14,8 @@ import OrganizerProfile from "../Pages/Dashboard/Organizer/OrganizerProfile";
 import ManageCamps from "../Pages/Dashboard/AddCamp/manageCamps";
 import UpdateCamps from "../Pages/Dashboard/AddCamp/UpdateCamps";
 import CampDetails from "../Pages/PopularCamps/CampDetails";
+import OrganizerRoute from "./OrganizerRoute";
+import RegisteredCamps from "../Pages/Dashboard/Participant/RegisteredCamps";
 
 export const router = createBrowserRouter([
   {
@@ -67,19 +69,35 @@ export const router = createBrowserRouter([
       //organizer
       {
         path: "organizer-profile",
-        element: <OrganizerProfile />,
+        element: (
+          <OrganizerRoute>
+            <OrganizerProfile />
+          </OrganizerRoute>
+        ),
       },
       {
         path: "add-a-camp",
-        element: <AddCamp />,
+        element: (
+          <OrganizerRoute>
+            <AddCamp />
+          </OrganizerRoute>
+        ),
       },
       {
         path: "manage-camps",
-        element: <ManageCamps />,
+        element: (
+          <OrganizerRoute>
+            <ManageCamps />
+          </OrganizerRoute>
+        ),
       },
       {
         path: "update-camp/:campId",
-        element: <UpdateCamps />,
+        element: (
+          <OrganizerRoute>
+            <UpdateCamps />
+          </OrganizerRoute>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/camps/${params.campId}`),
       },
@@ -92,6 +110,10 @@ export const router = createBrowserRouter([
       {
         path: "participant-profile",
         element: <ParticipantProfile />,
+      },
+      {
+        path: "registered-camps",
+        element: <RegisteredCamps />,
       },
     ],
   },
