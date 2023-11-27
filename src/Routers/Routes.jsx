@@ -26,7 +26,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/camp-details/:campId",
-        element: <CampDetails />,
+        element: (
+          <PrivateRoute>
+            <CampDetails />
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/camps/${params.campId}`),
       },

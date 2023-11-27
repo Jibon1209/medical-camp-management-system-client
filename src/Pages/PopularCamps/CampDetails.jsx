@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import UseAuth from "../../Hooks/UseAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
 
 const CampDetails = () => {
   const {
@@ -58,27 +60,64 @@ const CampDetails = () => {
     }
   }, [userRole]);
 
+  const imageAnimate = {
+    offscreen: { x: -100, opacity: 0 },
+    onscreen: {
+      x: 0,
+      opacity: 1,
+      rotate: [0, 10, 0],
+      transition: { type: "spring", bounce: 0.4, duration: 1 },
+    },
+  };
+
+  const textAnimate = {
+    offscreen: { y: 100, opacity: 0 },
+    onscreen: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", bounce: 0.4, duration: 1 },
+    },
+  };
   return (
     <div className="xl:px-24 px-4 pt-20 mb-10">
+      <Helmet>
+        <title>CampHealth Portal | Camp Details</title>
+      </Helmet>
       <SectionTitle heading="Camps Details"></SectionTitle>
-      <div className="flex flex-col md:flex-row lg:justify-evenly items-center gap-6">
-        <div className="flex justify-center items-center">
+      <motion.div
+        initial={"offscreen"}
+        whileInView={"onscreen"}
+        viewport={{ once: false, amount: 0.5 }}
+        transition={{ staggerChildren: 0.5 }}
+        className="flex flex-col md:flex-row lg:justify-evenly items-center gap-6"
+      >
+        <motion.div
+          variants={imageAnimate}
+          className="flex justify-center items-center"
+        >
           <img className="rounded-md" src={image} alt="" />
-        </div>
+        </motion.div>
         <div className="font-normal text-gray-700 dark:text-gray-400 space-y-3">
-          <h5 className="text-lg md:text-xl lg:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <motion.h5
+            variants={textAnimate}
+            className="text-lg md:text-xl lg:text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+          >
             {campName}
-          </h5>
-          <p className="lg:text-lg">Fees: {fees}</p>
-          <p>
+          </motion.h5>
+          <motion.p variants={textAnimate} className="lg:text-lg">
+            Fees: {fees}
+          </motion.p>
+          <motion.p variants={textAnimate}>
             Date and Time: {moment(`${dateTime}`).format("YYYY-MM-DD HH:mm:ss")}
-          </p>
-          <p>Location: {location}</p>
-          <p>Professional: {professional}</p>
-          <p>Audience: {audience}</p>
-          <p>Services: {services}</p>
-          <p>{description}</p>
-          <div>
+          </motion.p>
+          <motion.p variants={textAnimate}>Location: {location}</motion.p>
+          <motion.p variants={textAnimate}>
+            Professional: {professional}
+          </motion.p>
+          <motion.p variants={textAnimate}>Audience: {audience}</motion.p>
+          <motion.p variants={textAnimate}>Services: {services}</motion.p>
+          <motion.p variants={textAnimate}>{description}</motion.p>
+          <motion.div variants={textAnimate}>
             <button
               onClick={() => setOpenModal(true)}
               disabled={disabled}
@@ -86,7 +125,7 @@ const CampDetails = () => {
             >
               Join Camp
             </button>
-          </div>
+          </motion.div>
           <>
             <Modal show={openModal} onClose={() => setOpenModal(false)}>
               <Modal.Header>Registration</Modal.Header>
@@ -190,16 +229,10 @@ const CampDetails = () => {
                   </form>
                 </div>
               </Modal.Body>
-              <Modal.Footer>
-                {/* <Button onClick={() => setOpenModal(false)}>I accept</Button>
-                <Button color="gray" onClick={() => setOpenModal(false)}>
-                  Decline
-                </Button> */}
-              </Modal.Footer>
             </Modal>
           </>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
