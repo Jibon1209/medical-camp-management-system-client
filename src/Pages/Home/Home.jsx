@@ -1,4 +1,5 @@
 import AboutUs from "../About Us/AboutUs";
+import AccordionSection from "../Accordion/AccordionSection";
 import Header from "../Header/Header";
 import PopularCamps from "../PopularCamps/PopularCamps";
 import Testimonials from "../Testimonials/Testimonials";
@@ -12,6 +13,7 @@ const Home = () => {
       <AboutUs />
       <UpComingCamp />
       <Testimonials />
+      <AccordionSection />
     </div>
   );
 };

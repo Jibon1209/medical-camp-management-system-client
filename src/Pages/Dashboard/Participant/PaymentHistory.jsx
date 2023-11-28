@@ -6,6 +6,7 @@ import moment from "moment";
 import UseAuth from "../../../Hooks/UseAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "flowbite-react";
 
 const PaymentHistory = () => {
   const { user, loading } = UseAuth();
@@ -18,6 +19,9 @@ const PaymentHistory = () => {
       return response.data.data;
     },
   });
+  if (loading) {
+    return <Spinner aria-label="Extra large spinner example" size="xl" />;
+  }
   const columns = [
     {
       name: "Camp Name",
@@ -42,12 +46,12 @@ const PaymentHistory = () => {
     },
     {
       name: " Payment Status",
-      selector: (row) => row.registerdcampId.paymentstatus,
+      selector: (row) => row.registerdcampId?.paymentstatus,
       wrap: true,
     },
     {
       name: "Confirmation Status",
-      selector: (row) => row.registerdcampId.confirmationstatus,
+      selector: (row) => row.registerdcampId?.confirmationstatus,
     },
     {
       name: " Transaction",

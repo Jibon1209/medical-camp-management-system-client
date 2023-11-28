@@ -30,9 +30,7 @@ const ManageCamps = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await axiosSecure.delete(`/camps/${rowId}`);
-        // console.log(res.data);
         if (res.data.success) {
-          // refetch to update the ui
           refetch();
           Swal.fire({
             position: "top-end",

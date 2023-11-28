@@ -23,6 +23,7 @@ import UpComingCampDetails from "../Pages/UpComingCamp/UpComingCampDetails";
 import Payment from "../Pages/Dashboard/Participant/Payment";
 import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
 import FeedBack from "../Pages/Dashboard/Participant/FeedBack";
+import ParticipantRoute from "./ParticipantRoute";
 
 export const router = createBrowserRouter([
   {
@@ -142,11 +143,19 @@ export const router = createBrowserRouter([
       //participant
       {
         path: "participant-profile",
-        element: <ParticipantProfile />,
+        element: (
+          <ParticipantRoute>
+            <ParticipantProfile />
+          </ParticipantRoute>
+        ),
       },
       {
         path: "registered-camps",
-        element: <RegisteredCamps />,
+        element: (
+          <ParticipantRoute>
+            <RegisteredCamps />
+          </ParticipantRoute>
+        ),
       },
       {
         path: "/dashboard/payment/:id",
@@ -156,11 +165,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "payment-history",
-        element: <PaymentHistory />,
+        element: (
+          <ParticipantRoute>
+            <PaymentHistory />
+          </ParticipantRoute>
+        ),
       },
       {
         path: "feedback-and-ratings",
-        element: <FeedBack />,
+        element: (
+          <ParticipantRoute>
+            <FeedBack />
+          </ParticipantRoute>
+        ),
       },
     ],
   },
