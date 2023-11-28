@@ -22,6 +22,7 @@ import UpComingCampCard from "../Pages/UpComingCamp/UpComingCampCard";
 import UpComingCampDetails from "../Pages/UpComingCamp/UpComingCampDetails";
 import Payment from "../Pages/Dashboard/Participant/Payment";
 import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
+import FeedBack from "../Pages/Dashboard/Participant/FeedBack";
 
 export const router = createBrowserRouter([
   {
@@ -156,6 +157,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-history",
         element: <PaymentHistory />,
+      },
+      {
+        path: "feedback-and-ratings",
+        element: <FeedBack />,
       },
     ],
   },

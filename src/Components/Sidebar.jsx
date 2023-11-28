@@ -105,6 +105,11 @@ const Sidebar = () => {
         icon: <FaRegRegistered size={20} />,
         title: "Payment History",
       },
+      {
+        path: "/dashboard/feedback-and-ratings",
+        icon: <IoIosAddCircleOutline size={20} />,
+        title: "Feedback and Ratings",
+      },
     ],
   };
   const renderLinks = () => {
