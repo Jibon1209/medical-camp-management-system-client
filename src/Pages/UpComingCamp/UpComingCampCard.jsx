@@ -71,7 +71,7 @@ const UpComingCampCard = ({ upcomingCard }) => {
           variants={imageAnimate}
           className="flex justify-center items-center"
         >
-          <Link to={`/camp-details/${_id}`}>
+          <Link to={`/upcoming-camp-details/${_id}`}>
             <button className="py-2 px-2 bg-Primary hover:scale-110 text-white rounded-md mr-2 mb-1">
               Details
             </button>

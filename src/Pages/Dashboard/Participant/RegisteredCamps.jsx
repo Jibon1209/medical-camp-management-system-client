@@ -16,7 +16,6 @@ const RegisteredCamps = () => {
       const response = await axiosSecure.get(
         `participant/register/${user?.email}`
       );
-      console.log(response.data.data);
       return response.data.data;
     },
   });
@@ -61,7 +60,7 @@ const RegisteredCamps = () => {
           >
             Cancle
           </button>
-          <Link to={`/dashboard/update-camp/${row._id} `}>
+          <Link to={`/dashboard/payment/${row._id} `}>
             <button className="py-1 px-2 bg-Primary hover:scale-110 text-white rounded-md mb-1">
               Pay
             </button>

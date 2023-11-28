@@ -18,6 +18,9 @@ import OrganizerRoute from "./OrganizerRoute";
 import RegisteredCamps from "../Pages/Dashboard/Participant/RegisteredCamps";
 import ManageRegistered from "../Pages/Dashboard/AddCamp/ManageRegistered";
 import UpcomingCamps from "../Pages/Dashboard/AddCamp/UpcomingCamps";
+import UpComingCampCard from "../Pages/UpComingCamp/UpComingCampCard";
+import UpComingCampDetails from "../Pages/UpComingCamp/UpComingCampDetails";
+import Payment from "../Pages/Dashboard/Participant/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +40,16 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/camps/${params.campId}`),
+      },
+      {
+        path: "/upcoming-camp-details/:campId",
+        element: (
+          <PrivateRoute>
+            <UpComingCampDetails />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/upcommingcamps/${params.campId}`),
       },
       {
         path: "/availableCamps",
@@ -132,6 +145,12 @@ export const router = createBrowserRouter([
       {
         path: "registered-camps",
         element: <RegisteredCamps />,
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: <Payment />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/fees/register/${params.id}`),
       },
     ],
   },

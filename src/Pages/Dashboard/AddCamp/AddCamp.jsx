@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import UseAuth from "../../../Hooks/UseAuth";
 import { Helmet } from "react-helmet-async";
+import { Label, Select } from "flowbite-react";
+import { useQuery } from "@tanstack/react-query";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -21,6 +23,13 @@ const AddCamp = () => {
   const [value, setValue] = useState();
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
+  const { refetch, data: professional = [] } = useQuery({
+    queryKey: ["camps"],
+    queryFn: async () => {
+      const response = await axiosSecure.get("/professional/users");
+      return response.data.data;
+    },
+  });
 
   const onSubmit = async (data) => {
     const imageFile = { image: data.image[0] };
@@ -82,16 +91,22 @@ const AddCamp = () => {
               </div>
 
               <div className="space-y-1 text-sm">
-                <label className="block text-gray-600">
-                  Healthcare Professional
-                </label>
-                <input
-                  className="w-full px-3 py-2 border rounded-md border-Primary  text-gray-900"
+                <div className="mb-2 block">
+                  <Label htmlFor="countries" value="Healthcare Professional" />
+                </div>
+                <Select
+                  defaultValue="default"
                   {...register("professional", { required: true })}
-                  type="text"
-                  placeholder="Healthcare Professional"
-                  required
-                />
+                >
+                  <option disabled value="default">
+                    Select a category
+                  </option>
+                  {professional.map((pro) => (
+                    <option key={pro._id} value={pro._id}>
+                      {pro.name}
+                    </option>
+                  ))}
+                </Select>
               </div>
               <div className="space-y-1 text-sm">
                 <label className="block text-gray-600">Camp Fees</label>

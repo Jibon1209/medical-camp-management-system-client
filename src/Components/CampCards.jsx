@@ -9,7 +9,7 @@ const CampCards = ({ popularCard }) => {
     _id,
     campName,
     location,
-    professional,
+    name,
     fees,
     dateTime,
     image,
@@ -63,7 +63,7 @@ const CampCards = ({ popularCard }) => {
           </motion.p>
           <motion.p variants={textAnimate}>Location: {location}</motion.p>
           <motion.p variants={textAnimate}>
-            Professional: {professional}
+            Professional: {popularCard.professional.name}
           </motion.p>
           <motion.p variants={textAnimate}>Audience: {audience}</motion.p>
           <motion.p variants={textAnimate}>Services: {services}</motion.p>

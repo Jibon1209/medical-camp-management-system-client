@@ -1,32 +1,34 @@
-import moment from "moment";
-import SectionTitle from "../../Components/SectionTitle";
-import { useLoaderData } from "react-router-dom";
-import useRole from "../../Hooks/useRole";
-import { useEffect, useState } from "react";
-import { Button, Label, Modal, TextInput } from "flowbite-react";
-import { useForm } from "react-hook-form";
-import UseAuth from "../../Hooks/UseAuth";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import SectionTitle from "../../Components/SectionTitle";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { useLoaderData } from "react-router-dom";
+import UseAuth from "../../Hooks/UseAuth";
+import useRole from "../../Hooks/useRole";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import moment from "moment";
+import { Button, Label, Modal, TextInput } from "flowbite-react";
 
-const CampDetails = () => {
+const UpComingCampDetails = () => {
   const {
     _id,
     campName,
     location,
-    professional,
     fees,
     dateTime,
     image,
     services,
     audience,
+    professionalCount,
+    participantCount,
     description,
   } = useLoaderData();
   const { user } = UseAuth();
   const [userRole] = useRole();
-  const [disabled, setDisabled] = useState(true);
+  const [hidden, setHidden] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
@@ -55,9 +57,9 @@ const CampDetails = () => {
 
   useEffect(() => {
     if (userRole === "organizer" || userRole === "professional") {
-      setDisabled(true);
+      setHidden(true);
     } else {
-      setDisabled(false);
+      setHidden(false);
     }
   }, [userRole]);
 
@@ -82,9 +84,9 @@ const CampDetails = () => {
   return (
     <div className="xl:px-24 px-4 pt-20 mb-10">
       <Helmet>
-        <title>CampHealth Portal | Camp Details</title>
+        <title>CampHealth Portal | Upcoming Camp Details</title>
       </Helmet>
-      <SectionTitle heading="Camps Details"></SectionTitle>
+      <SectionTitle heading="Upcoming Camps Details"></SectionTitle>
       <motion.div
         initial={"offscreen"}
         whileInView={"onscreen"}
@@ -113,7 +115,7 @@ const CampDetails = () => {
           </motion.p>
           <motion.p variants={textAnimate}>Location: {location}</motion.p>
           <motion.p variants={textAnimate}>
-            Professional: {professional.name}
+            {/* Professional: {professional.name} */}
           </motion.p>
           <motion.p variants={textAnimate}>Audience: {audience}</motion.p>
           <motion.p variants={textAnimate}>Services: {services}</motion.p>
@@ -121,10 +123,10 @@ const CampDetails = () => {
           <motion.div variants={textAnimate}>
             <button
               onClick={() => setOpenModal(true)}
-              disabled={disabled}
+              hidden={hidden}
               className="py-2 px-2 bg-Primary text-white rounded-md mr-2 mb-1 hover:scale-110 transition-all"
             >
-              Join Camp
+              Join Upcoming Camp
             </button>
           </motion.div>
           <>
@@ -238,4 +240,4 @@ const CampDetails = () => {
   );
 };
 
-export default CampDetails;
+export default UpComingCampDetails;

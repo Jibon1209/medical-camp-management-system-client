@@ -15,7 +15,6 @@ const AvailableCard = ({ card, refetch }) => {
     _id,
     campName,
     location,
-    professional,
     fees,
     dateTime,
     image,
@@ -43,7 +42,6 @@ const AvailableCard = ({ card, refetch }) => {
       participantEmail: user?.email,
       campId: _id,
     };
-    console.log(participantInfo);
     const camps = await axiosPublic.post("/register", participantInfo);
     if (camps.data.success) {
       reset();
@@ -107,7 +105,7 @@ const AvailableCard = ({ card, refetch }) => {
           </motion.p>
           <motion.p variants={textAnimate}>Location: {location}</motion.p>
           <motion.p variants={textAnimate}>
-            Professional: {professional}
+            Professional: {card.professional.name}
           </motion.p>
           <motion.p variants={textAnimate}>Audience: {audience}</motion.p>
           <motion.p variants={textAnimate}>Services: {services}</motion.p>
