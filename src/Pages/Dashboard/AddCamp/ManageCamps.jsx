@@ -6,6 +6,7 @@ import DataTable from "react-data-table-component";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const ManageCamps = () => {
   const { user } = UseAuth();
@@ -104,7 +105,9 @@ const ManageCamps = () => {
   ];
   return (
     <div className="px-4">
-      <SectionTitle heading="Manage Camps"></SectionTitle>
+      <Helmet>
+        <title>CampHealth Portal | Manage Camps</title>
+      </Helmet>
       <SectionTitle heading="Manage Camps" />
 
       <div className="rounded-md">

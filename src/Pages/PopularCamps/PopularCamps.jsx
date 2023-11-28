@@ -32,7 +32,7 @@ const PopularCamps = () => {
   };
   return (
     <div className="xl:px-24 px-4 pt-10">
-      <SectionTitle heading="Popular Medical Camps"></SectionTitle>
+      <SectionTitle heading="Popular Camps"></SectionTitle>
       <div className="my-10 flex justify-center">
         <button
           onClick={handleSort}
@@ -41,7 +41,7 @@ const PopularCamps = () => {
           Sort by participant engagement
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {sortedPopularCards.slice(0, 8).map((popularCard) => (
           <CampCards
             key={popularCard._id}

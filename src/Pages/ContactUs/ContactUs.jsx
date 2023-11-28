@@ -5,6 +5,8 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
 import { Icon, divIcon, point } from "leaflet";
+import SectionTitle from "../../Components/SectionTitle";
+import { Helmet } from "react-helmet-async";
 
 // create custom icon
 const customIcon = new Icon({
@@ -39,6 +41,9 @@ const markers = [
 const ContactUs = () => {
   return (
     <div className="pt-24">
+      <Helmet>
+        <title>CampHealth Portal | Contact Us</title>
+      </Helmet>
       <Banner className="xl:px-24 px-4 ">
         <div className="relative z-0 h-56 sm:h-64 xl:h-96 2xl:h-[550px]">
           <img
@@ -58,6 +63,9 @@ const ContactUs = () => {
           </div>
         </div>
       </Banner>
+      <div className="pt-10">
+        <SectionTitle heading="Contact Us" />
+      </div>
       <div className="flex justify-center items-center flex-col lg:flex-row xl:px-24 px-4 py-10 ">
         <div className=" body-font relative lg:w-1/2">
           <div className="container px-5 py-24 mx-auto">
