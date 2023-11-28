@@ -6,15 +6,16 @@ import { useQuery } from "@tanstack/react-query";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 const RegisteredCamps = () => {
-  const { user } = UseAuth();
+  const { user, loading } = UseAuth();
   const axiosSecure = useAxiosSecure();
   const { refetch, data } = useQuery({
     queryKey: ["register", user?.email],
     queryFn: async () => {
       const response = await axiosSecure.get(
-        `participant/register/${user?.email}`
+        `/participant/register/${user?.email}`
       );
       return response.data.data;
     },
@@ -56,7 +57,8 @@ const RegisteredCamps = () => {
         <div className="flex flex-col lg:flex-row justify-center items-center gap-1">
           <button
             className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
-            // onClick={() => handleDelete(row._id.toString())}
+            onClick={() => handleDelete(row._id)}
+            disabled={loading || row.paymentstatus === "Paid"}
           >
             Cancle
           </button>
@@ -69,6 +71,48 @@ const RegisteredCamps = () => {
       ),
     },
   ];
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      });
+
+      if (result.isConfirmed) {
+        const response = await axiosSecure.delete(`/register/${id}`);
+        const { success, error } = response.data;
+
+        if (success) {
+          refetch();
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: error || "An error occurred while deleting.",
+            icon: "error",
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "An unexpected error occurred.",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <div>
       <Helmet>

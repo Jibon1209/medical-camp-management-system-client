@@ -100,6 +100,11 @@ const Sidebar = () => {
         icon: <MdManageAccounts size={20} />,
         title: "Registered Camps",
       },
+      {
+        path: "/dashboard/payment-history",
+        icon: <FaRegRegistered size={20} />,
+        title: "Payment History",
+      },
     ],
   };
   const renderLinks = () => {

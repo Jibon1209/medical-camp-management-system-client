@@ -21,6 +21,7 @@ import UpcomingCamps from "../Pages/Dashboard/AddCamp/UpcomingCamps";
 import UpComingCampCard from "../Pages/UpComingCamp/UpComingCampCard";
 import UpComingCampDetails from "../Pages/UpComingCamp/UpComingCampDetails";
 import Payment from "../Pages/Dashboard/Participant/Payment";
+import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -151,6 +152,10 @@ export const router = createBrowserRouter([
         element: <Payment />,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/fees/register/${params.id}`),
+      },
+      {
+        path: "payment-history",
+        element: <PaymentHistory />,
       },
     ],
   },
