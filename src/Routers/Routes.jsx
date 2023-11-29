@@ -18,13 +18,13 @@ import OrganizerRoute from "./OrganizerRoute";
 import RegisteredCamps from "../Pages/Dashboard/Participant/RegisteredCamps";
 import ManageRegistered from "../Pages/Dashboard/AddCamp/ManageRegistered";
 import UpcomingCamps from "../Pages/Dashboard/AddCamp/UpcomingCamps";
-import UpComingCampCard from "../Pages/UpComingCamp/UpComingCampCard";
 import UpComingCampDetails from "../Pages/UpComingCamp/UpComingCampDetails";
 import Payment from "../Pages/Dashboard/Participant/Payment";
 import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
 import FeedBack from "../Pages/Dashboard/Participant/FeedBack";
 import ParticipantRoute from "./ParticipantRoute";
 import ErrorPage from "../Components/ErrorPage";
+import ManageUpcomingCamps from "../Pages/Dashboard/AddCamp/ManageUpcomingCamps";
 
 export const router = createBrowserRouter([
   {
@@ -125,6 +125,14 @@ export const router = createBrowserRouter([
         element: (
           <OrganizerRoute>
             <UpcomingCamps />
+          </OrganizerRoute>
+        ),
+      },
+      {
+        path: "manage-upcoming-camps",
+        element: (
+          <OrganizerRoute>
+            <ManageUpcomingCamps />
           </OrganizerRoute>
         ),
       },

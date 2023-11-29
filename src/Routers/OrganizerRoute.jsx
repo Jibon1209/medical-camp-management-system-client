@@ -7,7 +7,6 @@ import { Navigate, useLocation } from "react-router-dom";
 const OrganizerRoute = ({ children }) => {
   const { user, loading } = UseAuth();
   const [userRole, roleLoading] = useRole();
-  console.log(userRole);
   const location = useLocation();
 
   if (loading || roleLoading) {

@@ -10,6 +10,7 @@ import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { Label, Select } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -72,8 +73,10 @@ const UpdateCamps = () => {
   };
   return (
     <div>
+      <Helmet>
+        <title>CampHealth Portal | Update Camps</title>
+      </Helmet>
       <SectionTitle heading="Update Camps"></SectionTitle>
-      <SectionTitle heading="Update Camp"></SectionTitle>
       <div className="w-full flex flex-col justify-center items-center text-gray-800 rounded-xl">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
