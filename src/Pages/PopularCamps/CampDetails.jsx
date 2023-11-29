@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import UseAuth from "../../Hooks/UseAuth";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const CampDetails = () => {
   const {
@@ -29,7 +29,7 @@ const CampDetails = () => {
   const [disabled, setDisabled] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
     const participantInfo = {
@@ -45,7 +45,7 @@ const CampDetails = () => {
       campId: _id,
     };
     console.log(participantInfo);
-    const camps = await axiosPublic.post("/register", participantInfo);
+    const camps = await axiosSecure.post("/register", participantInfo);
     if (camps.data.success) {
       reset();
       toast.success("Camp Registered successfully");

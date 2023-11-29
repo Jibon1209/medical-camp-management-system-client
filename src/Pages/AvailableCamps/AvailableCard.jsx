@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import useRole from "../../Hooks/useRole";
 import UseAuth from "../../Hooks/UseAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AvailableCard = ({ card, refetch }) => {
   const {
@@ -27,7 +27,7 @@ const AvailableCard = ({ card, refetch }) => {
   const [disabled, setDisabled] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
     const participantInfo = {
@@ -42,7 +42,7 @@ const AvailableCard = ({ card, refetch }) => {
       participantEmail: user?.email,
       campId: _id,
     };
-    const camps = await axiosPublic.post("/register", participantInfo);
+    const camps = await axiosSecure.post("/register", participantInfo);
     if (camps.data.success) {
       reset();
       refetch();
@@ -85,7 +85,7 @@ const AvailableCard = ({ card, refetch }) => {
       transition={{ staggerChildren: 0.5 }}
     >
       <Card
-        className="max-w-sm"
+        className="w-full"
         imgAlt="Meaningful alt text for an image that is not purely decorative"
         imgSrc={image}
       >
@@ -95,8 +95,8 @@ const AvailableCard = ({ card, refetch }) => {
         >
           {campName}
         </motion.h5>
-        <div className="font-normal text-gray-700 dark:text-gray-400 space-y-2">
-          <div className="flex justify-between items-center">
+        <div className="font-normal  text-gray-700 dark:text-gray-400 space-y-2">
+          <div className="flex  justify-between items-center">
             <p>Fees: {fees}</p>
             <p> Participant Count: {participantCount}</p>
           </div>

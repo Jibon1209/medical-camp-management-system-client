@@ -8,9 +8,9 @@ import UseAuth from "../../Hooks/UseAuth";
 import useRole from "../../Hooks/useRole";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import moment from "moment";
 import { Button, Label, Modal, TextInput } from "flowbite-react";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const UpComingCampDetails = () => {
   const {
@@ -22,17 +22,19 @@ const UpComingCampDetails = () => {
     image,
     services,
     audience,
-    professionalCount,
-    participantCount,
     description,
   } = useLoaderData();
-  console.log(campName);
   const { user } = UseAuth();
   const [userRole] = useRole();
-  const [hidden, setHidden] = useState(true);
   const [openModal, setOpenModal] = useState(false);
+  const [openProfessionalModal, setOpenProfessionalModal] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-  const axiosPublic = useAxiosPublic();
+  const {
+    register: registerProfessional,
+    handleSubmit: handleSubmitProfessional,
+    reset: resetProfessional,
+  } = useForm();
+  const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
     const participantInfo = {
@@ -45,24 +47,38 @@ const UpComingCampDetails = () => {
       healthInfo: data.healthInfo,
       emergencyContact: data.emergencyContact,
       participantEmail: user?.email,
-      campId: _id,
+      upcomingcampId: _id,
     };
-    console.log(participantInfo);
-    const camps = await axiosPublic.post("/register", participantInfo);
-    if (camps.data.success) {
+    const upcomingpro = await axiosSecure.post(
+      "/upcomingParticipants",
+      participantInfo
+    );
+    if (upcomingpro.data.success) {
       reset();
-      toast.success("Camp Registered successfully");
+      toast.success("Upcoming Camp Registered successfully");
       setOpenModal(false);
     }
   };
-
-  useEffect(() => {
-    if (userRole === "organizer" || userRole === "professional") {
-      setHidden(true);
-    } else {
-      setHidden(false);
+  const onSubmitProfessional = async (data) => {
+    const professionalInfo = {
+      name: data.name,
+      specialization: data.specialization,
+      phone: data.phone,
+      address: data.address,
+      areasOfInterest: data.interest,
+      professionalEmail: user?.email,
+      upcomingcampId: _id,
+    };
+    const camps = await axiosSecure.post(
+      "/upcomingProfessional",
+      professionalInfo
+    );
+    if (camps.data.success) {
+      resetProfessional();
+      setOpenProfessionalModal(false);
+      toast.success("Interested Upcoming Camp");
     }
-  }, [userRole]);
+  };
 
   const imageAnimate = {
     offscreen: { x: -100, opacity: 0 },
@@ -123,11 +139,18 @@ const UpComingCampDetails = () => {
           <motion.p variants={textAnimate}>{description}</motion.p>
           <motion.div variants={textAnimate}>
             <button
-              onClick={() => setOpenModal(true)}
-              hidden={hidden}
+              onClick={() => {
+                if (userRole === "participant") {
+                  setOpenModal(true);
+                } else if (userRole === "professional") {
+                  setOpenProfessionalModal(true);
+                }
+              }}
               className="py-2 px-2 bg-Primary text-white rounded-md mr-2 mb-1 hover:scale-110 transition-all"
             >
-              Join Upcoming Camp
+              {userRole === "participant"
+                ? "Join Upcoming Camp"
+                : "Interested Upcoming"}
             </button>
           </motion.div>
           <>
@@ -225,6 +248,83 @@ const UpComingCampDetails = () => {
                           type="text"
                           placeholder="Emergency contact"
                           {...register("emergencyContact", { required: true })}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2"></div>
+                    <Button type="submit">Submit</Button>
+                  </form>
+                </div>
+              </Modal.Body>
+            </Modal>
+          </>
+          <>
+            <Modal
+              show={openProfessionalModal}
+              onClose={() => setOpenProfessionalModal(false)}
+            >
+              <Modal.Header>Registration</Modal.Header>
+              <Modal.Body>
+                <div className="space-y-6">
+                  <form
+                    onSubmit={handleSubmitProfessional(onSubmitProfessional)}
+                    className="flex justify-center items-center mx-auto max-w-md flex-col gap-4"
+                  >
+                    <div className="flex flex-col w-full gap-4">
+                      <div>
+                        <div className="mb-2 block">
+                          <Label value="Name" />
+                        </div>
+                        <TextInput
+                          type="text"
+                          {...registerProfessional("name", { required: true })}
+                          placeholder="Name"
+                        />
+                      </div>
+                      <div>
+                        <div className="mb-2 block">
+                          <Label value="Specialization" />
+                        </div>
+                        <TextInput
+                          type="text"
+                          placeholder="Specialization"
+                          {...registerProfessional("specialization", {
+                            required: true,
+                          })}
+                        />
+                      </div>
+                      <div>
+                        <div className="mb-2 block">
+                          <Label value="Phone" />
+                        </div>
+                        <TextInput
+                          type="text"
+                          placeholder="Phone"
+                          {...registerProfessional("phone", { required: true })}
+                        />
+                      </div>
+                      <div>
+                        <div className="mb-2 block">
+                          <Label value="Address" />
+                        </div>
+                        <TextInput
+                          type="text"
+                          placeholder="Address"
+                          {...registerProfessional("address", {
+                            required: true,
+                          })}
+                        />
+                      </div>
+                      <div>
+                        <div className="mb-2 block">
+                          <Label value=" Areas of interest" />
+                        </div>
+                        <TextInput
+                          type="text"
+                          placeholder=" Areas of interest"
+                          {...registerProfessional("interest", {
+                            required: true,
+                          })}
                         />
                       </div>
                     </div>

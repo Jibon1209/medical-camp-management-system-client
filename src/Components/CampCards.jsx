@@ -43,7 +43,7 @@ const CampCards = ({ popularCard }) => {
       transition={{ staggerChildren: 0.5 }}
     >
       <Card
-        className="max-w-sm"
+        className="w-full"
         imgAlt="Meaningful alt text for an image that is not purely decorative"
         imgSrc={image}
       >
