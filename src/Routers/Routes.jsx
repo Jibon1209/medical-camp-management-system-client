@@ -25,6 +25,7 @@ import FeedBack from "../Pages/Dashboard/Participant/FeedBack";
 import ParticipantRoute from "./ParticipantRoute";
 import ErrorPage from "../Components/ErrorPage";
 import ManageUpcomingCamps from "../Pages/Dashboard/AddCamp/ManageUpcomingCamps";
+import UpdateUpcomingcamp from "../Pages/Dashboard/AddCamp/UpdateUpcomingcamp";
 
 export const router = createBrowserRouter([
   {
@@ -145,6 +146,16 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/camps/${params.campId}`),
+      },
+      {
+        path: "update-upcoming-camp/:campId",
+        element: (
+          <OrganizerRoute>
+            <UpdateUpcomingcamp />
+          </OrganizerRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/upcommingcamps/${params.campId}`),
       },
       //professional
       {

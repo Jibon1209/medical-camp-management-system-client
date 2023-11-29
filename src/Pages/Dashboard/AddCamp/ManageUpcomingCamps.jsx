@@ -25,31 +25,6 @@ const ManageUpcomingCamps = () => {
       return response.data.data;
     },
   });
-  const handleDelete = (rowId) => {
-    // Swal.fire({
-    //   title: "Are you sure?",
-    //   text: "You won't be able to revert this!",
-    //   icon: "warning",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#3085d6",
-    //   cancelButtonColor: "#d33",
-    //   confirmButtonText: "Yes, delete it!",
-    // }).then(async (result) => {
-    //   if (result.isConfirmed) {
-    //     const res = await axiosSecure.delete(`/camps/${rowId}`);
-    //     if (res.data.success) {
-    //       refetch();
-    //       Swal.fire({
-    //         position: "top-end",
-    //         icon: "success",
-    //         title: `Camp has been deleted`,
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //       });
-    //     }
-    //   }
-    // });
-  };
 
   const columns = [
     {
@@ -87,7 +62,7 @@ const ManageUpcomingCamps = () => {
       center: true,
       cell: (row) => (
         <button
-          className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
+          className="py-1 px-2 bg-Primary hover:scale-110 text-white rounded-md"
           onClick={() => handleReview(row._id)}
         >
           Review
@@ -107,11 +82,28 @@ const ManageUpcomingCamps = () => {
       center: true,
       cell: (row) => (
         <button
-          className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
-          //onClick={() => handleDelete(row._id.toString())}
+          className="py-1 px-2 bg-Primary hover:scale-110 text-white rounded-md"
+          onClick={() => handleProfessionalReview(row._id.toString())}
         >
           Review
         </button>
+      ),
+    },
+    {
+      name: "Action",
+      maxWidth: "50px",
+      center: true,
+      cell: (row) => (
+        <>
+          {row.participantCount >= 5 && row.professionalCount >= 1 && (
+            <button
+              className="py-1 px-2 bg-green-400 hover:scale-110 text-white rounded-md"
+              onClick={() => handlePublish(row._id)}
+            >
+              Publish
+            </button>
+          )}
+        </>
       ),
     },
     {
@@ -121,18 +113,12 @@ const ManageUpcomingCamps = () => {
         <div className="flex flex-col lg:flex-row gap-1">
           <button
             className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
-            //onClick={() => handleDelete(row._id.toString())}
-          >
-            Publish
-          </button>
-          <button
-            className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
-            //onClick={() => handleDelete(row._id.toString())}
+            onClick={() => handleDelete(row._id)}
           >
             Delete
           </button>
 
-          <Link to={`/dashboard/update-camp/${row._id.toString()} `}>
+          <Link to={`/dashboard/update-upcoming-camp/${row._id} `}>
             <button className="py-2 px-2 bg-Primary hover:scale-110 text-white rounded-md mb-1">
               Update
             </button>
@@ -141,11 +127,95 @@ const ManageUpcomingCamps = () => {
       ),
     },
   ];
+  const handleDelete = (rowId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.delete(`/upcommingcamps/${rowId}`);
+        if (res.data.success) {
+          refetch();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `Camp has been deleted`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    });
+  };
+
+  //for participant
   const [participants, setParticipants] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [selectedItemData, setSelectedItemData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [ishidden, setIshedden] = useState(true);
+
+  //for Professional
+  const [isLoading, setIsLoading] = useState(false);
+  const [professional, setProfessional] = useState([]);
+  const [selectedProfessionalId, setSelectedProfessionalId] = useState(null);
+  const [selectedProfessionalData, setSelectedProfessionalData] =
+    useState(null);
+  const [isProfessionalhidden, setIsProfessionalhedden] = useState(true);
+
+  const handleProfessionalReview = async (id) => {
+    try {
+      setIsLoading(true);
+      const professionalRes = await axiosSecure.get(
+        `/upcomingProfessional/${id}`
+      );
+      setProfessional(professionalRes.data);
+
+      setSelectedProfessionalId(id);
+      setSelectedProfessionalData(professionalRes.data);
+      setIsProfessionalhedden(false);
+      setIshedden(true);
+    } catch (error) {
+      console.error("Error fetching participants:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const professionalRes = await axiosSecure.get(
+          `/upcomingProfessional/${selectedProfessionalId}`
+        );
+        setSelectedItemData(professionalRes.data);
+      } catch (error) {
+        console.error("Error fetching participants:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (selectedProfessionalId) {
+      fetchData();
+    }
+  }, [selectedProfessionalId, axiosSecure]);
+
+  const handleprofessionalAccept = async (id) => {
+    const acceptprof = await axiosSecure.patch(
+      `/accept/upcomingProfessional/${id}`
+    );
+    if (acceptprof.data.success) {
+      toast.success("Accepted  successfully");
+      refetch();
+    }
+  };
+
+  //for participant
 
   const handleReview = async (id) => {
     try {
@@ -158,6 +228,7 @@ const ManageUpcomingCamps = () => {
       setSelectedItemId(id);
       setSelectedItemData(participantRes.data);
       setIshedden(false);
+      setIsProfessionalhedden(true);
     } catch (error) {
       console.error("Error fetching participants:", error);
     } finally {
@@ -183,7 +254,8 @@ const ManageUpcomingCamps = () => {
     if (selectedItemId) {
       fetchData();
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, axiosSecure]);
+
   const handleparticipentAccept = async (id) => {
     const findParticipants = participants.find(
       (participant) => participant._id === id
@@ -200,7 +272,6 @@ const ManageUpcomingCamps = () => {
       participant: findParticipants.participant,
       camp: findParticipants.upcomingcamp,
     };
-    console.log(participantinfo);
     const joinres = await axiosSecure.post(
       `/acceptParticipants/upcomingParticipants/${id}`,
       participantinfo
@@ -210,7 +281,12 @@ const ManageUpcomingCamps = () => {
       refetch();
     }
   };
-
+  const handlePublish = async (id) => {
+    const filteredUpcomingCamp = manageupcoming.find(
+      (upcoming) => upcoming._id === id
+    );
+    console.log(filteredUpcomingCamp);
+  };
   return (
     <div className="px-4">
       <Helmet>
@@ -264,6 +340,47 @@ const ManageUpcomingCamps = () => {
                   <Table.Cell>
                     <button
                       onClick={() => handleparticipentAccept(participant._id)}
+                      className="py-2 px-2 bg-Primary hover:scale-110 text-white rounded-md mb-1"
+                    >
+                      Accept
+                    </button>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
+        <div hidden={isProfessionalhidden} className="overflow-x-auto">
+          <h2 className="text-3xl font-bold text-center my-10">
+            Review professional
+          </h2>
+          <Table>
+            <Table.Head>
+              <Table.HeadCell>Name</Table.HeadCell>
+              <Table.HeadCell>Specialization</Table.HeadCell>
+              <Table.HeadCell>Phone</Table.HeadCell>
+              <Table.HeadCell>Address</Table.HeadCell>
+              <Table.HeadCell>AreasOfInterest</Table.HeadCell>
+              <Table.HeadCell>
+                <span className="sr-only">Edit</span>
+              </Table.HeadCell>
+            </Table.Head>
+            <Table.Body className="divide-y">
+              {professional.map((pro) => (
+                <Table.Row
+                  key={pro._id}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {pro.name}
+                  </Table.Cell>
+                  <Table.Cell>{pro.specialization}</Table.Cell>
+                  <Table.Cell>{pro.phone}</Table.Cell>
+                  <Table.Cell>{pro.address}</Table.Cell>
+                  <Table.Cell>{pro.areasOfInterest}</Table.Cell>
+                  <Table.Cell>
+                    <button
+                      onClick={() => handleprofessionalAccept(pro._id)}
                       className="py-2 px-2 bg-Primary hover:scale-110 text-white rounded-md mb-1"
                     >
                       Accept
