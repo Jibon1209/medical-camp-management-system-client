@@ -19,7 +19,6 @@ const ParticipantProfile = () => {
       const response = await axiosSecure.get(
         `/userProfile/users/${user?.email}`
       );
-      console.log(response.data.data);
       return response.data.data;
     },
   });

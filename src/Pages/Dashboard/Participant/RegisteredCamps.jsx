@@ -62,11 +62,18 @@ const RegisteredCamps = () => {
           >
             Cancle
           </button>
-          <Link to={`/dashboard/payment/${row._id} `}>
+          {row.confirmationstatus === "Confirmed" ||
+          row.paymentstatus === "Paid" ? (
             <button className="py-1 px-2 bg-Primary hover:scale-110 text-white rounded-md mb-1">
-              Pay
+              Paid
             </button>
-          </Link>
+          ) : (
+            <Link to={`/dashboard/payment/${row._id} `}>
+              <button className="py-1 px-2 bg-Primary hover:scale-110 text-white rounded-md mb-1">
+                Pay
+              </button>
+            </Link>
+          )}
         </div>
       ),
     },

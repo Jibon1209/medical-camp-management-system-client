@@ -2,14 +2,14 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../../Components/SectionTitle";
 import UseAuth from "../../../Hooks/UseAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
 import moment from "moment";
 import DataTable from "react-data-table-component";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const ManageRegistered = () => {
-  const { user } = UseAuth();
+  const { user, loading } = UseAuth();
   const axiosSecure = useAxiosSecure();
   const { refetch, data } = useQuery({
     queryKey: ["register", user?.email],
@@ -54,7 +54,6 @@ const ManageRegistered = () => {
           <button
             onClick={() => handleConfirm(row._id)}
             className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
-            // onClick={() => handleDelete(row._id.toString())}
           >
             {`${row.confirmationstatus}`}
           </button>
@@ -65,8 +64,9 @@ const ManageRegistered = () => {
       name: "Action",
       cell: (row) => (
         <button
+          hidden={loading || row.confirmationstatus === "Confirmed"}
           className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
-          // onClick={() => handleDelete(row._id.toString())}
+          onClick={() => handleDelete(row._id)}
         >
           Cancle
         </button>
@@ -80,6 +80,46 @@ const ManageRegistered = () => {
       refetch();
     }
     return res.data.data;
+  };
+  const handleDelete = async (id) => {
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      });
+
+      if (result.isConfirmed) {
+        const response = await axiosSecure.delete(`/register/${id}`);
+        const { success, error } = response.data;
+
+        if (success) {
+          refetch();
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: error || "An error occurred while deleting.",
+            icon: "error",
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "An unexpected error occurred.",
+        icon: "error",
+      });
+    }
   };
   return (
     <div>
