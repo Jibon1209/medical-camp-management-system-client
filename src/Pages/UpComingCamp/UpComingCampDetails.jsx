@@ -26,6 +26,7 @@ const UpComingCampDetails = () => {
     participantCount,
     description,
   } = useLoaderData();
+  console.log(campName);
   const { user } = UseAuth();
   const [userRole] = useRole();
   const [hidden, setHidden] = useState(true);

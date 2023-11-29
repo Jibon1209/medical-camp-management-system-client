@@ -20,6 +20,7 @@ const FeedBack = () => {
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const [openModal, setOpenModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
   const { register, handleSubmit, reset } = useForm();
   const { refetch, data } = useQuery({
     queryKey: ["register", user?.email],
@@ -68,7 +69,7 @@ const FeedBack = () => {
         <div className="flex flex-col lg:flex-row justify-center items-center gap-1">
           <button
             className="py-1 px-2 bg-Red hover:scale-110 text-white rounded-md"
-            onClick={() => setOpenModal(true)}
+            onClick={() => handleModal(row)}
           >
             Review
           </button>
@@ -76,8 +77,13 @@ const FeedBack = () => {
       ),
     },
   ];
+  const handleModal = (rowData) => {
+    setSelectedRow(rowData);
+    setOpenModal(true);
+  };
   const onSubmit = async (data) => {
     const imageFile = { image: data.image[0] };
+
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: {
         "content-type": "multipart/form-data",
@@ -89,7 +95,10 @@ const FeedBack = () => {
         image: res.data.data.display_url,
         comment: data.comment,
         username: user?.displayName,
+        campName: selectedRow?.camp.campName,
+        date: selectedRow?.camp.dateTime,
       };
+      console.log(feedBackInfo);
       const feedbackRes = await axiosSecure.post("/feedback", feedBackInfo);
       if (feedbackRes.data.success) {
         reset();

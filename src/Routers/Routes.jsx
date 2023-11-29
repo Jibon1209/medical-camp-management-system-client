@@ -24,11 +24,13 @@ import Payment from "../Pages/Dashboard/Participant/Payment";
 import PaymentHistory from "../Pages/Dashboard/Participant/PaymentHistory";
 import FeedBack from "../Pages/Dashboard/Participant/FeedBack";
 import ParticipantRoute from "./ParticipantRoute";
+import ErrorPage from "../Components/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -83,6 +85,7 @@ export const router = createBrowserRouter([
         <Dashboard />
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage />,
     children: [
       //organizer
       {
