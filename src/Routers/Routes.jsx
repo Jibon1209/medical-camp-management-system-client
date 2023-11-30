@@ -26,12 +26,14 @@ import ParticipantRoute from "./ParticipantRoute";
 import ErrorPage from "../Components/ErrorPage";
 import ManageUpcomingCamps from "../Pages/Dashboard/AddCamp/ManageUpcomingCamps";
 import UpdateUpcomingcamp from "../Pages/Dashboard/AddCamp/UpdateUpcomingcamp";
+import AcceptedCamps from "../Pages/Dashboard/Professional/AcceptedCamps";
+import Acceptcampdetails from "../Pages/Dashboard/Professional/Acceptcampdetails";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-    //errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -86,7 +88,7 @@ export const router = createBrowserRouter([
         <Dashboard />
       </PrivateRoute>
     ),
-    //errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       //organizer
       {
@@ -162,6 +164,11 @@ export const router = createBrowserRouter([
         path: "professional-profile",
         element: <ProfessionalProfile />,
       },
+      {
+        path: "accepted-camps",
+        element: <AcceptedCamps />,
+      },
+
       //participant
       {
         path: "participant-profile",

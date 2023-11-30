@@ -88,6 +88,11 @@ const Sidebar = () => {
         icon: <FaHome size={20} />,
         title: "Profile",
       },
+      {
+        path: "/dashboard/accepted-camps",
+        icon: <IoIosAddCircleOutline size={20} />,
+        title: "AcceptedCamps",
+      },
     ],
     participant: [
       {
