@@ -17,30 +17,31 @@ const RegisteredCamps = () => {
       const response = await axiosSecure.get(
         `/participant/register/${user?.email}`
       );
+      console.log(response.data.data);
       return response.data.data;
     },
   });
   const columns = [
     {
       name: "Camp Name",
-      selector: (row) => row.camp.campName,
+      selector: (row) => row.camp?.campName,
       sortable: "true",
       wrap: true,
     },
     {
       name: "Date and Time",
       selector: (row) =>
-        moment(row.camp.dateTime).format("YYYY-MM-DD HH:mm:ss"),
+        moment(row.camp?.dateTime).format("YYYY-MM-DD HH:mm:ss"),
       sortable: "true",
       wrap: true,
     },
     {
       name: "Venue",
-      selector: (row) => row.camp.location,
+      selector: (row) => row.camp?.location,
     },
     {
       name: "Fees",
-      selector: (row) => row.camp.fees,
+      selector: (row) => row.camp?.fees,
     },
     {
       name: " Payment Status",

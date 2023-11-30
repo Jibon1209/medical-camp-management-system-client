@@ -293,6 +293,7 @@ const UpComingCampDetails = () => {
                           })}
                         />
                       </div>
+
                       <div>
                         <div className="mb-2 block">
                           <Label value="Phone" />

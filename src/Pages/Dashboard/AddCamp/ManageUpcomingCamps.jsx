@@ -286,6 +286,30 @@ const ManageUpcomingCamps = () => {
       (upcoming) => upcoming._id === id
     );
     console.log(filteredUpcomingCamp);
+    const campPublishInfo = {
+      _id: filteredUpcomingCamp._id,
+      campName: filteredUpcomingCamp.campName,
+      location: filteredUpcomingCamp.location,
+      fees: filteredUpcomingCamp.fees,
+      dateTime: filteredUpcomingCamp.dateTime,
+      image: filteredUpcomingCamp.image,
+      services: filteredUpcomingCamp.services,
+      audience: filteredUpcomingCamp.audience,
+      description: filteredUpcomingCamp.description,
+      organizer: filteredUpcomingCamp.organizer._id,
+      participantCount: filteredUpcomingCamp.participantCount,
+      professional: filteredUpcomingCamp._id,
+    };
+
+    console.log(campPublishInfo);
+    const publishres = await axiosSecure.post(
+      `/upcomingcamp/camps/${id}`,
+      campPublishInfo
+    );
+    if (publishres.data.data) {
+      toast.success("Published successfully");
+      refetch();
+    }
   };
   return (
     <div className="px-4">
