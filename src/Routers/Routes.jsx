@@ -27,7 +27,6 @@ import ErrorPage from "../Components/ErrorPage";
 import ManageUpcomingCamps from "../Pages/Dashboard/AddCamp/ManageUpcomingCamps";
 import UpdateUpcomingcamp from "../Pages/Dashboard/AddCamp/UpdateUpcomingcamp";
 import AcceptedCamps from "../Pages/Dashboard/Professional/AcceptedCamps";
-import Acceptcampdetails from "../Pages/Dashboard/Professional/Acceptcampdetails";
 
 export const router = createBrowserRouter([
   {
